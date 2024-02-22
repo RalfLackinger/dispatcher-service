@@ -11,7 +11,7 @@ import java.util.function.Function;
 @Configuration
 public class DispatchingFunctions {
 
-	public static final Logger log = LoggerFactory.getLogger(DispatchingFunctions.class);
+	private static final Logger log = LoggerFactory.getLogger(DispatchingFunctions.class);
 
 	@Bean
 	public Function<OrderAcceptedMessage, Long> pack() {
@@ -24,7 +24,7 @@ public class DispatchingFunctions {
 	@Bean
 	public Function<Flux<Long>, Flux<OrderDispatchedMessage>> label() {
 		return orderFlux -> orderFlux.map(orderId -> {
-			log.info("The oder with id {} is labeled.", orderId);
+			log.info("The order with id {} is labeled.", orderId);
 			return new OrderDispatchedMessage(orderId);
 		});
 	}

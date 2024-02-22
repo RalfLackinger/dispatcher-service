@@ -17,13 +17,11 @@ import java.io.IOException;
 
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
-public class FunctionsStreamIntegrationTests {
+class FunctionsStreamIntegrationTests {
 
-	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	@Autowired
 	private InputDestination input;
 
-	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	@Autowired
 	private OutputDestination output;
 
@@ -31,12 +29,12 @@ public class FunctionsStreamIntegrationTests {
 	private ObjectMapper objectMapper;
 
 	@Test
-	void whenOrderAcceptedThenDispatch() throws IOException {
+	void whenOrderAcceptedThenDispatched() throws IOException {
 		long orderId = 121;
-		Message<OrderAcceptedMessage> inputMessage =
-				MessageBuilder.withPayload(new OrderAcceptedMessage(orderId)).build();
-		Message<OrderDispatchedMessage> expectedOutputMessage =
-				MessageBuilder.withPayload(new OrderDispatchedMessage(orderId)).build();
+		Message<OrderAcceptedMessage> inputMessage = MessageBuilder
+				.withPayload(new OrderAcceptedMessage(orderId)).build();
+		Message<OrderDispatchedMessage> expectedOutputMessage = MessageBuilder
+				.withPayload(new OrderDispatchedMessage(orderId)).build();
 
 		this.input.send(inputMessage);
 		assertThat(objectMapper.readValue(output.receive().getPayload(), OrderDispatchedMessage.class))
